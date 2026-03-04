@@ -56,6 +56,11 @@ public class Main {
             throws BadLocationException
     {
       if (stringToAdd == null) return;
+      
+      if (stringToAdd.isEmpty()) {
+        super.replace(fb, offset, lengthToDelete, stringToAdd, attr);
+        return;
+      }
 
       // Only allow digits
       if (stringToAdd.matches("\\d+")) {
