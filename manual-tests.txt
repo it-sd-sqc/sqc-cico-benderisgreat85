@@ -85,3 +85,10 @@ Use `./build.sh` to build CiCo and `./run.sh` to run it if using the command lin
 * If the button is not pressed, the program still returns to the main panel after the timeout.
 
 
+Ticket 601 manual test
+
+1. Run the CiCo program
+2. Type 00000000 into the card field
+3. Do NOT press enter
+4. The card should automatically process after the 8th digit
+5. The Update button should not appear
