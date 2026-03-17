@@ -54,22 +54,12 @@ public class Main {
     public void insertString(FilterBypass fb, int offset, String stringToAdd, AttributeSet attr)
             throws BadLocationException
     {
-      if (fb.getDocument() == null || stringToAdd == null) {
-        Toolkit.getDefaultToolkit().beep();
-        return;
-      }
+      if (stringToAdd == null) return;
 
-      String current = fb.getDocument().getText(0, fb.getDocument().getLength());
-      String candidate = current.substring(0, offset) + stringToAdd + current.substring(offset);
-
-      if (isValid(candidate)) {
+      // Only allow digits
+      if (stringToAdd.matches("\\d+")) {
         super.insertString(fb, offset, stringToAdd, attr);
-
-        if (candidate.length() == MAX_LENGTH) {
-          SwingUtilities.invokeLater(Main::processCard);
-        }
-      }
-      else {
+      } else {
         Toolkit.getDefaultToolkit().beep();
       }
     }
@@ -96,17 +86,21 @@ public class Main {
           SwingUtilities.invokeLater(Main::processCard);
         }
       }
-      else {
+
+      // Only allow digits
+      if (stringToAdd.matches("\\d+")) {
+        super.replace(fb, offset, lengthToDelete, stringToAdd, attr);
+      } else {
         Toolkit.getDefaultToolkit().beep();
       }
     }
   }
 
-    // Lookup the card information after button press ///////////////////////////
-    public static class Update implements ActionListener {
-      public void actionPerformed(ActionEvent evt) {
-        Main.processCard();
-      }
+
+  // Lookup the card information after button press ///////////////////////////
+  public static class Update implements ActionListener {
+    public void actionPerformed(ActionEvent evt) {
+      Main.processCard();
     }
 
     // Revert to the main panel after a button press ////////////////////////////
